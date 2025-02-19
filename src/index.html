@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notes App API</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Notes App API</h1>
+    <div class="container">
+      <div class="left-pane">
+        <note-form></note-form>
+      </div>
+      <div class="right-pane">
+        <button id="showUnarchivedBtn">Show Unarchived Notes</button>
+        <button id="showArchivedBtn">Show Archived Notes</button>
+        <note-list></note-list>
+      </div>
+    </div>
+    <note-detail></note-detail>
+
+    <loading-indicator></loading-indicator>
+
+    <script src="index.js"></script>
+  </body>
+</html>

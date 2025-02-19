@@ -1,0 +1,29 @@
+body {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.left-pane,
+.right-pane {
+  border: 1px solid #ccc;
+  padding: 16px;
+}
+
+button {
+  cursor: pointer;
+  margin: 4px;
+}
+
+note-detail {
+  display: block;
+  margin-top: 20px;
+}
