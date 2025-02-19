@@ -1,3 +1,5 @@
+import anime from "animejs/lib/anime.es.js";
+import Swal from "sweetalert2";
 import {
   deleteNote,
   getNoteDetail,
@@ -19,10 +21,24 @@ class NoteList extends HTMLElement {
         .note-item {
           border: 1px solid #ccc;
           padding: 10px;
+          opacity: 0;
+          transform: translateY(50px);
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          white-space: normal;
         }
         button {
           margin-right: 4px;
           cursor: pointer;
+          background-color: #5a67d8;
+          color: #fff;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 4px;
+          transition: background-color 0.3s;
+        }
+        button:hover {
+          background-color: #434190;
         }
       </style>
       <div class="notes-container"></div>
@@ -63,7 +79,6 @@ class NoteList extends HTMLElement {
             : `<button data-action="archive" data-id="${note.id}">Archive</button>`
         }
       `;
-
       item.addEventListener("click", (event) => {
         const action = event.target.dataset.action;
         const id = event.target.dataset.id;
@@ -84,15 +99,29 @@ class NoteList extends HTMLElement {
             break;
         }
       });
-
       container.appendChild(item);
+    });
+
+    anime({
+      targets: this._shadowRoot.querySelectorAll(".note-item"),
+      translateY: [50, 0],
+      opacity: [0, 1],
+      easing: "easeOutExpo",
+      duration: 800,
+      delay: anime.stagger(100),
     });
   }
 
   async _handleDelete(noteId) {
     try {
       const result = await deleteNote(noteId);
-      alert(result.message);
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: result.message,
+        timer: 1500,
+        showConfirmButton: false,
+      });
       this.dispatchEvent(
         new CustomEvent("note-deleted", {
           bubbles: true,
@@ -101,29 +130,56 @@ class NoteList extends HTMLElement {
         })
       );
     } catch (error) {
-      alert(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
     }
   }
 
   async _handleDetail(noteId) {
     try {
       const result = await getNoteDetail(noteId);
+      const note = result.data;
+
+      Swal.fire({
+        title: note.title,
+        html: `
+          <p>${note.body}</p>
+          <p><strong>Archived:</strong> ${note.archived}</p>
+          <p><strong>Created At:</strong> ${note.createdAt}</p>
+        `,
+        icon: "info",
+        confirmButtonText: "Close",
+      });
+
       this.dispatchEvent(
         new CustomEvent("note-detail", {
           bubbles: true,
           composed: true,
-          detail: { note: result.data },
+          detail: { note },
         })
       );
     } catch (error) {
-      alert(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.message,
+      });
     }
   }
 
   async _handleArchive(noteId) {
     try {
       const result = await archiveNote(noteId);
-      alert(result.message);
+      Swal.fire({
+        icon: "success",
+        title: "Archived!",
+        text: result.message,
+        timer: 1500,
+        showConfirmButton: false,
+      });
       this.dispatchEvent(
         new CustomEvent("note-archived", {
           bubbles: true,
@@ -132,14 +188,24 @@ class NoteList extends HTMLElement {
         })
       );
     } catch (error) {
-      alert(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.message,
+      });
     }
   }
 
   async _handleUnarchive(noteId) {
     try {
       const result = await unarchiveNote(noteId);
-      alert(result.message);
+      Swal.fire({
+        icon: "success",
+        title: "Unarchived!",
+        text: result.message,
+        timer: 1500,
+        showConfirmButton: false,
+      });
       this.dispatchEvent(
         new CustomEvent("note-unarchived", {
           bubbles: true,
@@ -148,7 +214,11 @@ class NoteList extends HTMLElement {
         })
       );
     } catch (error) {
-      alert(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.message,
+      });
     }
   }
 }

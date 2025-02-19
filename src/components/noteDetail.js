@@ -1,3 +1,5 @@
+import anime from "animejs/lib/anime.es.js";
+
 class NoteDetail extends HTMLElement {
   constructor() {
     super();
@@ -8,6 +10,14 @@ class NoteDetail extends HTMLElement {
           border: 1px solid #ccc;
           padding: 10px;
           margin-top: 20px;
+          border-radius: 8px;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+          /* Persiapan untuk animasi (nilai default) */
+          transform: scale(1);
+          opacity: 1;
+          transition: transform 0.3s ease, opacity 0.3s ease;
         }
       </style>
       <div class="detail-container">
@@ -20,6 +30,20 @@ class NoteDetail extends HTMLElement {
   set note(noteData) {
     this._noteData = noteData;
     this.render();
+
+    if (noteData) {
+      const container = this._shadowRoot.querySelector(".detail-container");
+      container.style.transform = "scale(0.9)";
+      container.style.opacity = "0";
+
+      anime({
+        targets: container,
+        scale: [0.9, 1],
+        opacity: [0, 1],
+        duration: 600,
+        easing: "easeInOutQuad",
+      });
+    }
   }
 
   get note() {
@@ -28,6 +52,7 @@ class NoteDetail extends HTMLElement {
 
   render() {
     const container = this._shadowRoot.querySelector(".detail-container");
+
     if (!this._noteData) {
       container.innerHTML = `
         <h3>Note Detail</h3>
