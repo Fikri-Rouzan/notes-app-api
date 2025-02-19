@@ -1,7 +1,7 @@
 {
   "name": "notes-app-api",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/js/index.js",
   "scripts": {
     "start-dev": "webpack serve --config webpack.config.js --env development",
     "build": "webpack --config webpack.config.js --env production"

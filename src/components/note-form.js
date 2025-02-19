@@ -1,4 +1,4 @@
-import { createNote } from "../api.js";
+import { createNote } from "../js/api.js";
 
 class NoteForm extends HTMLElement {
   constructor() {

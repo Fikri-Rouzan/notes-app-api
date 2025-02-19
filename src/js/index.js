@@ -1,7 +1,7 @@
-import "./components/note-form.js";
-import "./components/note-list.js";
-import "./components/note-detail.js";
-import "./components/loading-indicator.js";
+import "../components/note-form.js";
+import "../components/note-list.js";
+import "../components/note-detail.js";
+import "../components/loading-indicator.js";
 import { fetchNotes, fetchArchivedNotes } from "./api.js";
 
 document.addEventListener("DOMContentLoaded", () => {

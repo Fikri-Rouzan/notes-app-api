@@ -3,7 +3,7 @@ import {
   getNoteDetail,
   archiveNote,
   unarchiveNote,
-} from "../api.js";
+} from "../js/api.js";
 
 class NoteList extends HTMLElement {
   constructor() {
