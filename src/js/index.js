@@ -3,6 +3,7 @@ import "../components/note-list.js";
 import "../components/note-detail.js";
 import "../components/loading-indicator.js";
 import { fetchNotes, fetchArchivedNotes } from "./api.js";
+import "../css/style.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   const showUnarchivedBtn = document.getElementById("showUnarchivedBtn");

@@ -1,10 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: "./src/js/index.js",
   output: {
-    filename: "bundle.[contenthash].js",
+    filename: "js/index.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
@@ -12,13 +13,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       filename: "index.html",
+      inject: false,
+    }),
+    new MiniCssExtractPlugin({
+      filename: "css/style.css",
     }),
   ],
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.js$/,
