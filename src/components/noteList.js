@@ -1,3 +1,4 @@
+import faCSS from '!!raw-loader!@fortawesome/fontawesome-free/css/all.min.css';
 import anime from 'animejs/lib/anime.es.js';
 import Swal from 'sweetalert2';
 import {
@@ -21,10 +22,15 @@ class NoteList extends HTMLElement {
         const styleEl = document.createElement('style');
         styleEl.textContent = css;
 
+        const faStyleEl = document.createElement('style');
+        faStyleEl.textContent = faCSS;
+
         this.shadowRoot.innerHTML = `<div id="root"></div>`;
         const rootDiv = this.shadowRoot.querySelector('#root');
 
         rootDiv.prepend(styleEl);
+        rootDiv.prepend(faStyleEl);
+
         rootDiv.insertAdjacentHTML('beforeend', this._getTemplate());
       })
       .catch((err) => {
@@ -82,15 +88,28 @@ class NoteList extends HTMLElement {
         <p>${note.body}</p>
         <div class="bottom-row">
           <h4><strong>${note.archived ? 'Archived Note' : 'Unarchived Note'}</strong></h4>
-          <button data-action="detail" data-id="${note.id}">Detail</button>
-          <button data-action="delete" data-id="${note.id}">Delete</button>
+          <button data-action="delete" data-id="${note.id}" class="delete-btn" title="Delete">
+            <i class="fa-solid fa-trash"></i>
+          </button>
           ${
             note.archived
-              ? `<button data-action="unarchive" data-id="${note.id}">Unarchive</button>`
-              : `<button data-action="archive" data-id="${note.id}">Archive</button>`
+              ? `
+            <button data-action="unarchive" data-id="${note.id}" class="unarchive-btn" title="Unarchive">
+              <i class="fa-solid fa-box-open"></i>
+            </button>
+          `
+              : `
+            <button data-action="archive" data-id="${note.id}" class="archive-btn" title="Archive">
+              <i class="fa-solid fa-box-archive"></i>
+            </button>
+          `
           }
+          <button data-action="detail" data-id="${note.id}" class="detail-btn" title="Detail">
+            <i class="fa-solid fa-eye"></i>
+          </button>
         </div>
       `;
+
       item.addEventListener('click', (event) => {
         const action = event.target.dataset.action;
         const id = event.target.dataset.id;
@@ -161,12 +180,25 @@ class NoteList extends HTMLElement {
     try {
       const result = await getNoteDetail(noteId);
       const note = result.data;
+
+      const dateObj = new Date(note.createdAt);
+      const options = {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const formattedDate = dateObj.toLocaleDateString('en-US', options);
+
       Swal.fire({
         title: note.title,
         html: `
-          <p>${note.body}</p>
-          <p><strong>Archived:</strong> ${note.archived ? 'Archived' : 'Unarchived'}</p>
-          <p><strong>Created At:</strong> ${note.createdAt}</p>
+          <p style="margin-top: 0.5rem;">${note.body}</p>
+          <p style="margin-top: 0.5rem;"><strong>Status:</strong> ${note.archived ? 'Archived' : 'Unarchived'}</p>
+          <p style="margin-top: 0.5rem;"><em>${formattedDate}</em></p>
         `,
         icon: 'info',
         confirmButtonText: 'Close',

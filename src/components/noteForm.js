@@ -1,6 +1,6 @@
-import anime from "animejs/lib/anime.es.js";
-import Swal from "sweetalert2";
-import { createNote } from "../js/api.js";
+import anime from 'animejs/lib/anime.es.js';
+import Swal from 'sweetalert2';
+import { createNote } from '../js/api.js';
 
 class NoteForm extends HTMLElement {
   constructor() {
@@ -10,29 +10,29 @@ class NoteForm extends HTMLElement {
       body: false,
     };
 
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: 'open' });
   }
 
   connectedCallback() {
-    fetch("css/style.css")
+    fetch('css/style.css')
       .then((response) => response.text())
       .then((css) => {
-        const styleEl = document.createElement("style");
+        const styleEl = document.createElement('style');
         styleEl.textContent = css;
 
         this.shadowRoot.innerHTML = `
           <div id="root"></div>
         `;
 
-        const rootDiv = this.shadowRoot.querySelector("#root");
+        const rootDiv = this.shadowRoot.querySelector('#root');
         rootDiv.prepend(styleEl);
 
-        rootDiv.insertAdjacentHTML("beforeend", this._getFormTemplate());
+        rootDiv.insertAdjacentHTML('beforeend', this._getFormTemplate());
 
         this._setupForm();
       })
       .catch((err) => {
-        console.error("Failed to load CSS:", err);
+        console.error('Failed to load CSS:', err);
         this.shadowRoot.innerHTML = this._getFormTemplate();
         this._setupForm();
       });
@@ -72,66 +72,66 @@ class NoteForm extends HTMLElement {
   }
 
   _setupForm() {
-    const formElement = this.shadowRoot.querySelector("form");
-    const titleInput = this.shadowRoot.querySelector("#title");
-    const bodyTextarea = this.shadowRoot.querySelector("#body");
+    const formElement = this.shadowRoot.querySelector('form');
+    const titleInput = this.shadowRoot.querySelector('#title');
+    const bodyTextarea = this.shadowRoot.querySelector('#body');
 
     anime({
       targets: formElement,
       translateY: [30, 0],
       opacity: [0, 1],
       duration: 700,
-      easing: "easeOutExpo",
+      easing: 'easeOutExpo',
     });
 
-    titleInput.addEventListener("input", () => {
+    titleInput.addEventListener('input', () => {
       this._touchedFields.title = true;
       this._validateForm();
     });
-    bodyTextarea.addEventListener("input", () => {
+    bodyTextarea.addEventListener('input', () => {
       this._touchedFields.body = true;
       this._validateForm();
     });
 
     this._validateForm();
 
-    formElement.addEventListener("submit", this._onSubmit.bind(this));
+    formElement.addEventListener('submit', this._onSubmit.bind(this));
   }
 
   disconnectedCallback() {
-    const formElement = this.shadowRoot.querySelector("form");
-    const titleInput = this.shadowRoot.querySelector("#title");
-    const bodyTextarea = this.shadowRoot.querySelector("#body");
+    const formElement = this.shadowRoot.querySelector('form');
+    const titleInput = this.shadowRoot.querySelector('#title');
+    const bodyTextarea = this.shadowRoot.querySelector('#body');
 
-    titleInput.removeEventListener("input", this._validateForm);
-    bodyTextarea.removeEventListener("input", this._validateForm);
-    formElement.removeEventListener("submit", this._onSubmit);
+    titleInput.removeEventListener('input', this._validateForm);
+    bodyTextarea.removeEventListener('input', this._validateForm);
+    formElement.removeEventListener('submit', this._onSubmit);
   }
 
   _validateForm() {
-    const title = this.shadowRoot.querySelector("#title").value.trim();
-    const body = this.shadowRoot.querySelector("#body").value.trim();
+    const title = this.shadowRoot.querySelector('#title').value.trim();
+    const body = this.shadowRoot.querySelector('#body').value.trim();
 
-    const titleGroup = this.shadowRoot.querySelector("#titleGroup");
-    const bodyGroup = this.shadowRoot.querySelector("#bodyGroup");
-    const submitButton = this.shadowRoot.querySelector("#submitButton");
+    const titleGroup = this.shadowRoot.querySelector('#titleGroup');
+    const bodyGroup = this.shadowRoot.querySelector('#bodyGroup');
+    const submitButton = this.shadowRoot.querySelector('#submitButton');
 
-    titleGroup.classList.remove("invalid");
-    bodyGroup.classList.remove("invalid");
+    titleGroup.classList.remove('invalid');
+    bodyGroup.classList.remove('invalid');
 
     let isValid = true;
 
     if (!this._touchedFields.title || title.length < 5) {
       isValid = false;
       if (this._touchedFields.title) {
-        titleGroup.classList.add("invalid");
+        titleGroup.classList.add('invalid');
       }
     }
 
     if (!this._touchedFields.body || body.length < 10) {
       isValid = false;
       if (this._touchedFields.body) {
-        bodyGroup.classList.add("invalid");
+        bodyGroup.classList.add('invalid');
       }
     }
 
@@ -140,21 +140,21 @@ class NoteForm extends HTMLElement {
 
   async _onSubmit(event) {
     event.preventDefault();
-    const formElement = this.shadowRoot.querySelector("form");
-    const submitButton = this.shadowRoot.querySelector("#submitButton");
+    const formElement = this.shadowRoot.querySelector('form');
+    const submitButton = this.shadowRoot.querySelector('#submitButton');
 
     this._validateForm();
 
     if (submitButton.disabled) {
-      formElement.classList.add("shake");
+      formElement.classList.add('shake');
       setTimeout(() => {
-        formElement.classList.remove("shake");
+        formElement.classList.remove('shake');
       }, 300);
       return;
     }
 
-    const title = this.shadowRoot.querySelector("#title").value.trim();
-    const body = this.shadowRoot.querySelector("#body").value.trim();
+    const title = this.shadowRoot.querySelector('#title').value.trim();
+    const body = this.shadowRoot.querySelector('#body').value.trim();
 
     try {
       const response = await createNote({ title, body });
@@ -163,12 +163,12 @@ class NoteForm extends HTMLElement {
         targets: formElement,
         scale: [1, 1.05, 1],
         duration: 500,
-        easing: "easeInOutQuad",
+        easing: 'easeInOutQuad',
       });
 
       Swal.fire({
-        icon: "success",
-        title: "Created",
+        icon: 'success',
+        title: 'Created!',
         text: response.message,
         timer: 1500,
         showConfirmButton: false,
@@ -180,7 +180,7 @@ class NoteForm extends HTMLElement {
       this._validateForm();
 
       this.dispatchEvent(
-        new CustomEvent("note-created", {
+        new CustomEvent('note-created', {
           bubbles: true,
           composed: true,
           detail: { note: response.data },
@@ -188,8 +188,8 @@ class NoteForm extends HTMLElement {
       );
     } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "Error",
+        icon: 'error',
+        title: 'Error',
         text: error.message,
       });
       console.error(error);
@@ -197,4 +197,4 @@ class NoteForm extends HTMLElement {
   }
 }
 
-customElements.define("note-form", NoteForm);
+customElements.define('note-form', NoteForm);
