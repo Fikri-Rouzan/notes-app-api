@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,18 +15,18 @@
   </head>
   <body>
     <app-header></app-header>
-    <div class="container">
-      <div>
+    <main>
+      <div class="container">
         <note-form></note-form>
-      </div>
-      <div class="right-pane">
-        <button id="showUnarchivedBtn">Show Unarchived Notes</button>
-        <button id="showArchivedBtn">Show Archived Notes</button>
+        <div class="right-pane">
+          <button id="showUnarchivedBtn">Show Unarchived Notes</button>
+          <button id="showArchivedBtn">Show Archived Notes</button>
+        </div>
         <note-list></note-list>
+        <note-detail></note-detail>
+        <loading-indicator></loading-indicator>
       </div>
-      <note-detail></note-detail>
-      <loading-indicator></loading-indicator>
-    </div>
+    </main>
     <app-footer></app-footer>
 
     <script src="js/index.js"></script>

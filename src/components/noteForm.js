@@ -32,7 +32,7 @@ class NoteForm extends HTMLElement {
         this._setupForm();
       })
       .catch((err) => {
-        console.error("Gagal memuat CSS:", err);
+        console.error("Failed to load CSS:", err);
         this.shadowRoot.innerHTML = this._getFormTemplate();
         this._setupForm();
       });
@@ -75,6 +75,14 @@ class NoteForm extends HTMLElement {
     const formElement = this.shadowRoot.querySelector("form");
     const titleInput = this.shadowRoot.querySelector("#title");
     const bodyTextarea = this.shadowRoot.querySelector("#body");
+
+    anime({
+      targets: formElement,
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 700,
+      easing: "easeOutExpo",
+    });
 
     titleInput.addEventListener("input", () => {
       this._touchedFields.title = true;
@@ -160,7 +168,7 @@ class NoteForm extends HTMLElement {
 
       Swal.fire({
         icon: "success",
-        title: "Note Created",
+        title: "Created",
         text: response.message,
         timer: 1500,
         showConfirmButton: false,

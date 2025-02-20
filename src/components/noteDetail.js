@@ -1,28 +1,37 @@
-import anime from "animejs/lib/anime.es.js";
+import anime from 'animejs/lib/anime.es.js';
 
 class NoteDetail extends HTMLElement {
   constructor() {
     super();
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.innerHTML = `
-      <style>
-        .detail-container {
-          border: 1px solid #ccc;
-          padding: 10px;
-          margin-top: 20px;
-          border-radius: 8px;
-          background-color: #ffffff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    this._noteData = null;
+    this.attachShadow({ mode: 'open' });
+  }
 
-          /* Persiapan untuk animasi (nilai default) */
-          transform: scale(1);
-          opacity: 1;
-          transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-      </style>
+  connectedCallback() {
+    fetch('css/style.css')
+      .then((response) => response.text())
+      .then((css) => {
+        const styleEl = document.createElement('style');
+        styleEl.textContent = css;
+
+        this.shadowRoot.innerHTML = `<div id="root"></div>`;
+        const rootDiv = this.shadowRoot.querySelector('#root');
+
+        rootDiv.prepend(styleEl);
+
+        rootDiv.insertAdjacentHTML('beforeend', this._getTemplate());
+      })
+      .catch((err) => {
+        console.error('Failed to load CSS:', err);
+        this.shadowRoot.innerHTML = this._getTemplate();
+      });
+  }
+
+  _getTemplate() {
+    return `
       <div class="detail-container">
         <h3>Note Detail</h3>
-        <p id="detail-body">Belum ada detail yang dipilih.</p>
+        <p id="detail-body">No note has been selected yet</p>
       </div>
     `;
   }
@@ -31,19 +40,17 @@ class NoteDetail extends HTMLElement {
     this._noteData = noteData;
     this.render();
 
-    if (noteData) {
-      const container = this._shadowRoot.querySelector(".detail-container");
-      container.style.transform = "scale(0.9)";
-      container.style.opacity = "0";
+    const container = this.shadowRoot.querySelector('.detail-container');
+    container.style.transform = 'scale(0.9)';
+    container.style.opacity = '0';
 
-      anime({
-        targets: container,
-        scale: [0.9, 1],
-        opacity: [0, 1],
-        duration: 600,
-        easing: "easeInOutQuad",
-      });
-    }
+    anime({
+      targets: container,
+      scale: [0.9, 1],
+      opacity: [0, 1],
+      duration: 600,
+      easing: 'easeInOutQuad',
+    });
   }
 
   get note() {
@@ -51,24 +58,38 @@ class NoteDetail extends HTMLElement {
   }
 
   render() {
-    const container = this._shadowRoot.querySelector(".detail-container");
+    const container = this.shadowRoot.querySelector('.detail-container');
 
     if (!this._noteData) {
       container.innerHTML = `
         <h3>Note Detail</h3>
-        <p>Belum ada detail yang dipilih.</p>
+        <p id="detail-body">No note has been selected yet</p>
       `;
       return;
     }
 
     const { title, body, archived, createdAt } = this._noteData;
+
+    const dateObj = new Date(createdAt);
+
+    const options = {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+    const formattedDate = dateObj.toLocaleDateString('en-US', options);
+
     container.innerHTML = `
-      <h3>Detail: ${title}</h3>
+      <h3>${title}</h3>
       <p>${body}</p>
-      <p><strong>Archived:</strong> ${archived}</p>
-      <p><em>Created At:</em> ${createdAt}</p>
+      <p><strong>${archived ? 'Archived Note' : 'Unarchived Note'}</strong> </p>
+      <p><em>${formattedDate}</em></p>
     `;
   }
 }
 
-customElements.define("note-detail", NoteDetail);
+customElements.define('note-detail', NoteDetail);
