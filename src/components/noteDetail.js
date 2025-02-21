@@ -20,10 +20,6 @@ class NoteDetail extends HTMLElement {
         rootDiv.prepend(styleEl);
 
         rootDiv.insertAdjacentHTML('beforeend', this._getTemplate());
-      })
-      .catch((err) => {
-        console.error('Failed to load CSS:', err);
-        this.shadowRoot.innerHTML = this._getTemplate();
       });
   }
 

@@ -30,11 +30,6 @@ class NoteForm extends HTMLElement {
         rootDiv.insertAdjacentHTML('beforeend', this._getFormTemplate());
 
         this._setupForm();
-      })
-      .catch((err) => {
-        console.error('Failed to load CSS:', err);
-        this.shadowRoot.innerHTML = this._getFormTemplate();
-        this._setupForm();
       });
   }
 
@@ -192,7 +187,6 @@ class NoteForm extends HTMLElement {
         title: 'Error',
         text: error.message,
       });
-      console.error(error);
     }
   }
 }

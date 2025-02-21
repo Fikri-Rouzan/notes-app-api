@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         noteList.notes = notes;
         noteDetail.note = null;
       })
-      .catch((err) => console.error(err))
       .finally(() => loadingIndicator.hide());
   }
 
@@ -52,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         noteList.notes = notes;
         noteDetail.note = null;
       })
-      .catch((err) => console.error(err))
       .finally(() => loadingIndicator.hide());
   }
 });
