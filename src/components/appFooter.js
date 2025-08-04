@@ -10,7 +10,7 @@ class AppFooter extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="css/style.css" />                
+      <link rel="stylesheet" href="/style.css" />                
       <footer>
         <h4>© ${new Date().getFullYear()} Muhammad Fikri Rouzan Ash Shidik</h4>
       </footer>

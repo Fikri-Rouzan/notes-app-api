@@ -1,22 +1,21 @@
 # Notes App API
 
-## About Notes App API
+## ℹ️ About
 
-Notes App API is a website where users can create notes in real time using the provided RESTful API. Since this website integrates a REST API, every user will share the notes they have created with others. The main purpose of this website is to make it easier for users to create and share notes with others.
+Notes App API is a dynamic web application enabling real-time, collaborative note-taking. The platform is designed to streamline the process of creating and sharing notes, allowing multiple users to contribute and view updates simultaneously.
 
-## Features
+## ✨ Features
 
-- Creating Notes: Users can create a note by typing the title and content of the note.
-- Display Notes: Users can display all the notes they have created.
-- View Notes: Users can view detailed information for each note they have created.
-- Archived and Unarchived Notes: Users can choose whether to store their notes in the archive or not.
-- Delete Notes: Users can delete any notes they no longer need.
+- ➕ Create Notes: Users can add a new note by providing a title and body content.
+- 🔎 View & Manage Notes: All created notes are displayed in a clean list. Users can select any note to view its full details.
+- 🗂️ Archive / Unarchive: Users can archive notes to remove them from the main view without permanent deletion, and can unarchive them at any time.
+- 🗑️ Delete Notes: Users can permanently delete notes that are no longer needed.
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-- Programming Language: JavaScript.
-- Markup Language: HTML.
-- Stylesheet Language: CSS.
-- Libraries: Webpack, CSS Loaders, Babel, Anime.js, and SweetAlert2.
-- Software: Visual Studio Code.
-- Deployment: Netlify.
+- 🌐 Programming Language: JavaScript.
+- 📄 Markup Language: HTML.
+- 🎨 Stylesheet Language: CSS.
+- ⚛️ Libraries: webpack, css-loader, Babel, Prettier, Anime.js, and SweetAlert2.
+- 💻 Software: Visual Studio Code.
+- 🚀 Deployment: Netlify.

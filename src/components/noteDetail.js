@@ -8,17 +8,16 @@ class NoteDetail extends HTMLElement {
   }
 
   connectedCallback() {
-    fetch('css/style.css')
+    fetch('/style.css')
       .then((response) => response.text())
       .then((css) => {
         const styleEl = document.createElement('style');
         styleEl.textContent = css;
 
         this.shadowRoot.innerHTML = `<div id="root"></div>`;
+
         const rootDiv = this.shadowRoot.querySelector('#root');
-
         rootDiv.prepend(styleEl);
-
         rootDiv.insertAdjacentHTML('beforeend', this._getTemplate());
       });
   }
@@ -61,6 +60,7 @@ class NoteDetail extends HTMLElement {
         <h3>Note Detail</h3>
         <p id="detail-body">No note has been selected yet</p>
       `;
+
       return;
     }
 
@@ -77,6 +77,7 @@ class NoteDetail extends HTMLElement {
       minute: '2-digit',
       second: '2-digit',
     };
+
     const formattedDate = dateObj.toLocaleDateString('en-US', options);
 
     container.innerHTML = `

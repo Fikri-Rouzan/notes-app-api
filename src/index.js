@@ -1,11 +1,11 @@
-import '../components/appHeader.js';
-import '../components/noteForm.js';
-import '../components/noteList.js';
-import '../components/noteDetail.js';
-import '../components/loadingIndicator.js';
-import '../components/appFooter.js';
-import { fetchNotes, fetchArchivedNotes } from './api.js';
-import '../css/style.css';
+import './components/appHeader.js';
+import './components/noteForm.js';
+import './components/noteList.js';
+import './components/noteDetail.js';
+import './components/loadingIndicator.js';
+import './components/appFooter.js';
+import { fetchNotes, fetchArchivedNotes } from './api/api.js';
+import './style.css';
 
 document.addEventListener('DOMContentLoaded', () => {
   const showUnarchivedBtn = document.getElementById('showUnarchivedBtn');
@@ -36,21 +36,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadUnarchivedNotes() {
     loadingIndicator.show();
+
     fetchNotes()
       .then((notes) => {
         noteList.notes = notes;
         noteDetail.note = null;
       })
+
       .finally(() => loadingIndicator.hide());
   }
 
   function loadArchivedNotes() {
     loadingIndicator.show();
+
     fetchArchivedNotes()
       .then((notes) => {
         noteList.notes = notes;
         noteDetail.note = null;
       })
+
       .finally(() => loadingIndicator.hide());
   }
 });

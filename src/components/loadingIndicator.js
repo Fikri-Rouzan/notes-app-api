@@ -2,9 +2,16 @@ class LoadingIndicator extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="css/style.css" />
-      <div class="overlay">Loading . . .</div>
+      <link rel="stylesheet" href="/style.css" />
+      <div class="overlay">Loading...</div>
     `;
   }
 

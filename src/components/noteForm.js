@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js';
 import Swal from 'sweetalert2';
-import { createNote } from '../js/api.js';
+import { createNote } from '../api/api.js';
 
 class NoteForm extends HTMLElement {
   constructor() {
@@ -14,19 +14,16 @@ class NoteForm extends HTMLElement {
   }
 
   connectedCallback() {
-    fetch('css/style.css')
+    fetch('/style.css')
       .then((response) => response.text())
       .then((css) => {
         const styleEl = document.createElement('style');
         styleEl.textContent = css;
 
-        this.shadowRoot.innerHTML = `
-          <div id="root"></div>
-        `;
+        this.shadowRoot.innerHTML = `<div id="root"></div>`;
 
         const rootDiv = this.shadowRoot.querySelector('#root');
         rootDiv.prepend(styleEl);
-
         rootDiv.insertAdjacentHTML('beforeend', this._getFormTemplate());
 
         this._setupForm();
@@ -83,6 +80,7 @@ class NoteForm extends HTMLElement {
       this._touchedFields.title = true;
       this._validateForm();
     });
+
     bodyTextarea.addEventListener('input', () => {
       this._touchedFields.body = true;
       this._validateForm();
@@ -118,6 +116,7 @@ class NoteForm extends HTMLElement {
 
     if (!this._touchedFields.title || title.length < 5) {
       isValid = false;
+
       if (this._touchedFields.title) {
         titleGroup.classList.add('invalid');
       }
@@ -125,6 +124,7 @@ class NoteForm extends HTMLElement {
 
     if (!this._touchedFields.body || body.length < 10) {
       isValid = false;
+
       if (this._touchedFields.body) {
         bodyGroup.classList.add('invalid');
       }
@@ -135,6 +135,7 @@ class NoteForm extends HTMLElement {
 
   async _onSubmit(event) {
     event.preventDefault();
+
     const formElement = this.shadowRoot.querySelector('form');
     const submitButton = this.shadowRoot.querySelector('#submitButton');
 
@@ -142,9 +143,11 @@ class NoteForm extends HTMLElement {
 
     if (submitButton.disabled) {
       formElement.classList.add('shake');
+
       setTimeout(() => {
         formElement.classList.remove('shake');
       }, 300);
+
       return;
     }
 
@@ -162,11 +165,17 @@ class NoteForm extends HTMLElement {
       });
 
       Swal.fire({
+        toast: true,
+        position: 'top-end',
         icon: 'success',
         title: 'Created!',
         text: response.message,
-        timer: 1500,
         showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        customClass: {
+          container: 'swal-container',
+        },
       });
 
       formElement.reset();
@@ -186,6 +195,9 @@ class NoteForm extends HTMLElement {
         icon: 'error',
         title: 'Error',
         text: error.message,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
       });
     }
   }

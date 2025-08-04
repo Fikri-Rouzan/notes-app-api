@@ -6,7 +6,7 @@ import {
   getNoteDetail,
   archiveNote,
   unarchiveNote,
-} from '../js/api.js';
+} from '../api/api.js';
 
 class NoteList extends HTMLElement {
   constructor() {
@@ -16,7 +16,7 @@ class NoteList extends HTMLElement {
   }
 
   connectedCallback() {
-    fetch('css/style.css')
+    fetch('/style.css')
       .then((response) => response.text())
       .then((css) => {
         const styleEl = document.createElement('style');
@@ -26,11 +26,10 @@ class NoteList extends HTMLElement {
         faStyleEl.textContent = faCSS;
 
         this.shadowRoot.innerHTML = `<div id="root"></div>`;
-        const rootDiv = this.shadowRoot.querySelector('#root');
 
+        const rootDiv = this.shadowRoot.querySelector('#root');
         rootDiv.prepend(styleEl);
         rootDiv.prepend(faStyleEl);
-
         rootDiv.insertAdjacentHTML('beforeend', this._getTemplate());
       });
   }
@@ -60,6 +59,7 @@ class NoteList extends HTMLElement {
         duration: 800,
         easing: 'easeOutExpo',
       });
+
       return;
     }
 
@@ -109,6 +109,7 @@ class NoteList extends HTMLElement {
       item.addEventListener('click', (event) => {
         const action = event.target.dataset.action;
         const id = event.target.dataset.id;
+
         if (!action || !id) return;
         switch (action) {
           case 'delete':
@@ -125,6 +126,7 @@ class NoteList extends HTMLElement {
             break;
         }
       });
+
       container.appendChild(item);
     });
 
@@ -150,11 +152,17 @@ class NoteList extends HTMLElement {
     try {
       const result = await deleteNote(noteId);
       Swal.fire({
+        toast: true,
+        position: 'top-end',
         icon: 'success',
         title: 'Deleted!',
         text: result.message,
-        timer: 1500,
         showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        customClass: {
+          container: 'swal-container',
+        },
       });
       this.dispatchEvent(
         new CustomEvent('note-deleted', {
@@ -168,6 +176,9 @@ class NoteList extends HTMLElement {
         icon: 'error',
         title: 'Oops...',
         text: error.message,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
       });
     }
   }
@@ -187,6 +198,7 @@ class NoteList extends HTMLElement {
         minute: '2-digit',
         second: '2-digit',
       };
+
       const formattedDate = dateObj.toLocaleDateString('en-US', options);
 
       Swal.fire({
@@ -198,6 +210,7 @@ class NoteList extends HTMLElement {
         `,
         icon: 'info',
         confirmButtonText: 'Close',
+        confirmButtonColor: '#b7b1f2',
       });
       this.dispatchEvent(
         new CustomEvent('note-detail', {
@@ -211,6 +224,9 @@ class NoteList extends HTMLElement {
         icon: 'error',
         title: 'Error',
         text: error.message,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
       });
     }
   }
@@ -219,11 +235,17 @@ class NoteList extends HTMLElement {
     try {
       const result = await archiveNote(noteId);
       Swal.fire({
+        toast: true,
+        position: 'top-end',
         icon: 'success',
         title: 'Archived!',
         text: result.message,
-        timer: 1500,
         showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        customClass: {
+          container: 'swal-container',
+        },
       });
       this.dispatchEvent(
         new CustomEvent('note-archived', {
@@ -237,6 +259,9 @@ class NoteList extends HTMLElement {
         icon: 'error',
         title: 'Error',
         text: error.message,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
       });
     }
   }
@@ -245,11 +270,17 @@ class NoteList extends HTMLElement {
     try {
       const result = await unarchiveNote(noteId);
       Swal.fire({
+        toast: true,
+        position: 'top-end',
         icon: 'success',
         title: 'Unarchived!',
         text: result.message,
-        timer: 1500,
         showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        customClass: {
+          container: 'swal-container',
+        },
       });
       this.dispatchEvent(
         new CustomEvent('note-unarchived', {
@@ -263,6 +294,9 @@ class NoteList extends HTMLElement {
         icon: 'error',
         title: 'Error',
         text: error.message,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
       });
     }
   }

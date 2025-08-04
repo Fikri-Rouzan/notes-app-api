@@ -1,15 +1,11 @@
 {
   "name": "notes-app-api",
-  "version": "1.0.0",
-  "main": "src/js/index.js",
+  "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "start-dev": "webpack serve --config webpack.config.js --env development",
+    "dev": "webpack serve --config webpack.config.js --env development",
     "build": "webpack --config webpack.config.js --env production"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@babel/core": "^7.26.9",
     "@babel/preset-env": "^7.26.9",
