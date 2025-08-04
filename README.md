@@ -16,6 +16,6 @@ Notes App API is a dynamic web application enabling real-time, collaborative not
 - 🌐 Programming Language: JavaScript.
 - 📄 Markup Language: HTML.
 - 🎨 Stylesheet Language: CSS.
-- ⚛️ Libraries: webpack, css-loader, Babel, Prettier, Anime.js, and SweetAlert2.
+- ⚛️ Libraries: webpack, css-loader, mini-css-extract-plugin, HTML Webpack Plugin, raw-loader, Babel Loader, Prettier, Font Awesome, Anime.js, and SweetAlert2.
 - 💻 Software: Visual Studio Code.
 - 🚀 Deployment: Netlify.
