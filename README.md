@@ -21,7 +21,6 @@ An asynchronous note management web application integrated with an external REST
 ## ⚙️ Setup Instructions
 
 1. **Prerequisites**
-
    - Node.js 24 or higher.
    - Git installed on your system.
    - PNPM 10 installed on your system (Optional).
@@ -55,7 +54,7 @@ pnpm dev
 
 ---
 
-## 🪄 Running Prettier Formatting
+## 🪄 Running Prettier
 
 ```bash
 # Using npm
