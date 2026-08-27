@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "webpack serve --config webpack.config.js --env development",
-    "build": "webpack --config webpack.config.js --env production"
+    "build": "webpack --config webpack.config.js --env production",
+    "format": "prettier --write \"src/**/*.js\""
   },
   "devDependencies": {
     "babel-loader": "^9.2.1",
