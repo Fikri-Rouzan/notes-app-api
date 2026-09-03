@@ -13,7 +13,7 @@ An asynchronous note management web application integrated with an external REST
 | 🌐 **Programming Language** | `JavaScript`                                     |
 | 📄 **Markup Language**      | `HTML`                                           |
 | 🎨 **Style Sheet Language** | `CSS`                                            |
-| ⚛️ **Libraries**            | `webpack`, `Prettier`, `Anime.js`, `SweetAlert2` |
+| ⚛️ **Libraries**            | `webpack`, `Prettier`, `Anime.js`, `sweetalert2` |
 | 🚀 **Deployment**           | `Netlify`                                        |
 
 ---
